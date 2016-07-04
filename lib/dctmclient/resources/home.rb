@@ -15,7 +15,7 @@ module Dctmclient
     def product_info
       url = @representation["resources"]["about"]["href"]
       link = Link.new('product-info', url)
-      return navigate(link, 'get', :ProductInfo, {:params => params})
+      return navigate(link, 'get', :ProductInfo)
     end
   end
 
