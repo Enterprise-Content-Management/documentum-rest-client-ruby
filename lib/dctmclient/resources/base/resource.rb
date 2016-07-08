@@ -18,7 +18,7 @@ module Dctmclient
     def navigate(link, http_method, response_class, option = {})
       raise NavigationException.new("#{link.href} doesn't exist!") if link.empty?
       response = Request.new(link.href, http_method, option).execute
-      return Object.const_get(response_class).new(response)
+      return Dctmclient.const_get(response_class).new(response)
     end
 
 
