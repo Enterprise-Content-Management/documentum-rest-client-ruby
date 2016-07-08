@@ -75,16 +75,16 @@ module Dctmclient
       return navigate(link, 'delete', :Resource, {:params => params})
     end
 
-    def checkin_next_major(file_path, params = {})
+    def checkin_next_major(file_content, params = {})
       return self if !checked_out?
       link = find_link_by(Link::REL_NAMES[:checkin_next_major])
-      return navigate(link, 'post', :SysObject, {:post_body => File.read(file_path), :params => params, :upload_file => true})
+      return navigate(link, 'post', :SysObject, {:post_body => file_content, :params => params, :upload_file => true})
     end
 
-    def checkin_next_minor(file_path, params = {})
+    def checkin_next_minor(file_content, params = {})
       return self if !checked_out?
       link = find_link_by(Link::REL_NAMES[:checkin_next_minor])
-      return navigate(link, 'post', :SysObject, {:post_body => File.read(file_path), :params => params, :upload_file => true})
+      return navigate(link, 'post', :SysObject, {:post_body => file_content, :params => params, :upload_file => true})
     end
 
     def versions(params = {})
