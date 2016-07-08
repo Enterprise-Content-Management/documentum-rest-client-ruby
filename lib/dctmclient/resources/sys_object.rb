@@ -8,7 +8,7 @@ module Dctmclient
       link = find_link_by(Link::REL_NAMES[:self])
       return navigate(link, 'post', :SysObject, {:post_body => attrs, :params => params})
     end
-    
+
     def create_document(attrs, params = {})
       link = find_link_by(Link::REL_NAMES[:self])
       return navigate(link, 'post', :Document, {:post_body => attrs, :params => params})
@@ -50,7 +50,7 @@ module Dctmclient
       link = find_link_by(Link::REL_NAMES[:contents])
       return navigate(link, 'get', :ObjectContents, {:params => params})
     end
-    
+
     def content_media(format, page, modifier, params = {})
       link = find_link_by(Link::REL_NAMES[:edit])
       link.href = link.href + "/content-media?page=#{page}&format=#{format}&modifier=#{modifier}"
@@ -68,7 +68,6 @@ module Dctmclient
       return navigate(link, 'put', :SysObject, {:params => params})
     end
 
-    #  Code:204 No Content
     def cancel_checkout(params = {})
       return self if !checked_out?
       link = find_link_by(Link::REL_NAMES[:cancel_checkout])
@@ -96,7 +95,7 @@ module Dctmclient
       link = find_link_by(Link::REL_NAMES[:current_version])
       return navigate(link, 'get', :SysObject, {:params => params})
     end
-    
+
     def predecessor_version(params = {})
       link = find_link_by(Link::REL_NAMES[:predecessor_version])
       return navigate(link, 'get', :SysObject, {:params => params})

@@ -1,13 +1,30 @@
 module Dctmclient
 
+  # This class holds components for http request.
+  # In fact, behind the APIs from all the resource(s) object, a Dctmclient::Requst object
+  # would be built to execute the http request.
   class Request
     attr_accessor :url, :method, :headers, :post_body, :params
 
     MEDIA_TYPE = {:json => 'application/vnd.emc.documentum+json'}
 
+    # Cache credential using class variable.
     @@credential = nil
 
-    def initialize(url, method, option = {})
+    # Initialization
+    #
+    # ==== Attributes
+    #
+    # * +url+ - An absolute URL
+    # * +method+ - one of ['get', 'post', 'put', 'delete']
+    # * +options+ - A hash to config others, like headers, query parameters, post body
+    #
+    # ==== Examples
+    #
+    #  Request.new('http://localhost:8080/dctm-rest/services', 'get', {:headers => {"Accept" => 'json'}})
+    #
+
+    def initialize(url, method, options = {})
       @url, @method, @headers= url, method, {"Accept" => MEDIA_TYPE[:json], "Authorization" => @@credential}
 
       if option[:user_name] && option[:password]
@@ -27,7 +44,7 @@ module Dctmclient
       append_params
     end
 
-
+    # Send the http request, and return a Dctmclient::Response object.
     def execute
       response = nil
       begin
