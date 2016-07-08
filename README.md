@@ -4,19 +4,19 @@
 Reference implementation of a Ruby client for accessing Documentum REST Services
 
 ## Installation
-1. Download the source code from this repository on Github.
-2. Open the the folder *documentum-rest-client-ruby* and build it which will produce a gem file.
- ```ruby
- gem build dctmclient.gemspec
- ```
-3. Install the gem in your local ruby gems repository.
- ```ruby
- sudo gem install ./dctmclient-0.1.0.gem
- ```
-4. Generate the documentation.(This step is optional)
- ```ruby
- sudo gem rdoc --rdoc --overwrite dctmclient
- ```
+a. Download the source code from this repository on Github.
+b. Open the the folder *documentum-rest-client-ruby* and build it which will produce a gem file.
+```ruby
+gem build dctmclient.gemspec
+``` 
+c. Install the gem in your local ruby gems repository.
+```ruby
+sudo gem install ./dctmclient-0.1.0.gem
+``` 
+d. Generate the documentation.(This step is optional)
+```ruby
+sudo gem rdoc --rdoc --overwrite dctmclient
+```
 
 ## Usage 
 
