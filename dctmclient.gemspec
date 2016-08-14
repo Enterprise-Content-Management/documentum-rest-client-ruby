@@ -14,38 +14,7 @@ Gem::Specification.new do |spec|
   spec.homepage      = "http://rubygems.org/dctmclient."
   spec.license       = "Apache 2.0"
 
-  # spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
-  spec.files         = [
-      "lib/dctmclient.rb",
-      "lib/dctmclient/version.rb",
-      "lib/dctmclient/error/exception.rb",
-      "lib/dctmclient/net/request.rb",
-      "lib/dctmclient/net/response.rb",
-      "lib/dctmclient/resources/home.rb",
-      "lib/dctmclient/resources/cabinet.rb",
-      "lib/dctmclient/resources/child_link.rb",
-      "lib/dctmclient/resources/document.rb",
-      "lib/dctmclient/resources/folder.rb",
-      "lib/dctmclient/resources/format.rb",
-      "lib/dctmclient/resources/group_user.rb",
-      "lib/dctmclient/resources/group.rb",
-      "lib/dctmclient/resources/network_location.rb",
-      "lib/dctmclient/resources/object_content.rb",
-      "lib/dctmclient/resources/parent_link.rb",
-      "lib/dctmclient/resources/relation_type.rb",
-      "lib/dctmclient/resources/relation.rb",
-      "lib/dctmclient/resources/repository.rb",
-      "lib/dctmclient/resources/sub_group.rb",
-      "lib/dctmclient/resources/sys_object.rb",
-      "lib/dctmclient/resources/type.rb",
-      "lib/dctmclient/resources/user.rb",
-      "lib/dctmclient/resources/version.rb",
-      "lib/dctmclient/resources/batch_capabilities.rb",
-      "lib/dctmclient/resources/product_info.rb",
-      "lib/dctmclient/resources/content_media.rb",
-      "lib/dctmclient/resources/base/resource.rb",
-      "lib/dctmclient/resources/base/link.rb"
-  ]
+  spec.files = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   spec.bindir        = "exe"
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]

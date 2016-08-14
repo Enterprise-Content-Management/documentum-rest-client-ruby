@@ -1,85 +1,118 @@
+require 'rest-client'
+require 'base64'
+require 'awesome_print'
+require 'yaml'
+
+require_relative File.dirname(__FILE__) + '/response'
+
 module Dctmclient
+  module Net
 
-  # This class holds components for http request.
-  # In fact, behind the APIs from all the resource(s) object, a Dctmclient::Requst object
-  # would be built to execute the http request.
-  class Request
-    attr_accessor :url, :method, :headers, :post_body, :params
+    MEDIA_TYPES = {
+        :json => 'application/vnd.emc.documentum+json'
+    }
 
-    MEDIA_TYPE = {:json => 'application/vnd.emc.documentum+json'}
+    class Request
+      attr_accessor :url, :http_method, :query_params, :http_headers, :post_body
 
-    # Cache credential using class variable.
-    @@credential = nil
+      @@credential = nil
 
-    # Initialization
-    #
-    # ==== Attributes
-    #
-    # * +url+ - An absolute URL
-    # * +method+ - one of ['get', 'post', 'put', 'delete']
-    # * +options+ - A hash to config others, like headers, query parameters, post body
-    #
-    # ==== Examples
-    #
-    #  Request.new('http://localhost:8080/dctm-rest/services', 'get', {:headers => {"Accept" => 'json'}})
-    #
-
-    def initialize(url, method, options = {})
-      @url, @method, @headers= url, method, {"Accept" => MEDIA_TYPE[:json], "Authorization" => @@credential}
-
-      if option[:user_name] && option[:password]
-        @@credential = basic_auth(option[:user_name], option[:password])
-        @headers.store("Authorization", @@credential)
+      def initialize(url, http_method, query_params = {}, http_headers = {}, post_body = {})
+        @url = url
+        @http_method = http_method
+        @query_params = query_params
+        @http_headers = http_headers
+        @post_body = post_body
       end
 
-      @headers.store("Content-Type", MEDIA_TYPE[:json]) if (@method == 'post' || @method == 'put') && !option[:upload_file]
-      @headers.merge!(option[:headers]) if option[:headers]
+      def execute
+        build_request
+        ap @url
+        # ap @http_method
+        # ap @http_headers
 
-      if option[:post_body]
-        @post_body = option[:post_body]
-        @post_body = option[:post_body].to_json if option[:post_body].is_a? Hash
-      end
-
-      @params = option[:params] if option[:params]
-      append_params
-    end
-
-    # Send the http request, and return a Dctmclient::Response object.
-    def execute
-      response = nil
-      begin
-        response = if @method == 'get'
-          RestClient.get(@url, @headers)
-        elsif @method == 'post'
-          RestClient.post(@url, @post_body, @headers)
-        elsif @method == 'put'
-          RestClient.put(@url, @post_body, @headers)
-        elsif @method == 'delete'
-          RestClient.delete(@url, @headers)
-        else
-          puts 'this method is not supported'
+        begin
+          response = case @http_method
+                       when 'get'
+                         RestClient.get(@url, @http_headers)
+                       when 'post'
+                         RestClient.post(@url, @post_body, @http_headers)
+                       when 'put'
+                         RestClient.put(@url, @post_body, @http_headers)
+                       when 'delete'
+                         RestClient.delete(@url, @http_headers)
+                       else
+                         puts 'method not supported'
+                         nil
+                     end
+        rescue RestClient::Exception => e
+          return Dctmclient::Net::Response.new(e.http_code, e.http_body)
         end
-      rescue RestClient::Exception => e
-        return Response.new(e.http_code, e.http_body)
+
+        Dctmclient::Net::Response.new(response.code, response.body, response.headers)
       end
 
-      return Response.new(response.code, response.body, response.headers)
+      private
+
+
+      def build_request
+        @url += build_query_params
+        @url = URI.encode(@url) if !not_need_encode?
+
+        @http_method ||= 'get'
+        @http_headers ||= {}
+
+        @http_headers.store("Accept", MEDIA_TYPES[:json]) if @http_headers['Accept'].nil?
+
+        if @http_headers.has_key?(:user_name)
+          encoded_credential = basic_auth(@http_headers[:user_name], @http_headers[:password])
+          @http_headers.store("Authorization", encoded_credential)
+          @@credential = encoded_credential
+        else
+          @http_headers.store("Authorization", @@credential)
+        end
+
+
+        # if need_authentication? && @http_headers["Authorization"].nil?
+        #   @http_headers.store("Authorization", basic_auth(credential['repository']['user_name'], credential['repository']['password']))
+        #   # @http_headers.store("Authorization", basic_auth("Administrator", "password"))
+        # end
+
+        if @http_headers['Content-Type'].nil? && ['put', 'post'].include?(@http_method)
+          @http_headers.store('Content-Type', MEDIA_TYPES[:json])
+        end
+
+        @post_body = @post_body.to_json if @post_body.is_a? Hash
+      end
+
+      def basic_auth(username, password)
+        format('Basic %s', Base64.encode64("#{username}:#{password}"))
+      end
+
+      def build_query_params
+        return '' if @query_params.nil? || @query_params.empty?
+
+        query_params = []
+        @query_params.each { |name, value| query_params << "#{name}=#{value}" }
+
+        existing_query_params = URI.split(URI.encode @url)[7]
+        (existing_query_params ? '&' : '?') + query_params.join('&')
+      end
+
+      def need_authentication?
+        @url.split('/repositories/').size == 2
+      end
+
+      # Avoid changing the URL by encoding if original has special character, like following:
+      # http://localhost:8080/repositories/REPO/relation-types/ACL%2BREPLICATION
+      # It would be encoded to
+      # http://localhost:8080/repositories/REPO/relation-types/ACL%252BREPLICATION
+      def not_need_encode?
+        return @url.include?('/relation-types/')
+      end
+
     end
 
-    private
-
-    def basic_auth(username, password)
-      return "Basic " + Base64.encode64("#{username}:#{password}")
-    end
-
-    def append_params
-      return nil if @url.nil? || @params.nil? || @params.empty?
-      params = []
-      @params.each { |k,v| params << "#{k}=#{v}"}
-      existing_params = URI.split(@url)[7]
-      @url = @url + (existing_params.nil? ? '?' : '&') + params.join('&')
-    end
 
   end
-
 end
