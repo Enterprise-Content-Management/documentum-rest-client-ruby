@@ -1,0 +1,6 @@
+= form_tag :action => :repositories, :controller => :home, :methed => 'post' do
+  =label_tag :rest_services_url, 'REST Services URL:'
+  =text_field_tag :rest_services_url, 'http://10.62.87.78:8080/dctm-rest/services'
+  =submit_tag 'GO'
+
+

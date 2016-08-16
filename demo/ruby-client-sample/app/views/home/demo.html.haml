@@ -1,0 +1,10 @@
+%p= "Current User: #{@current_user['properties']['user_name']}"
+
+%ul
+  %li=link_to 'Users', :action => :index, :controller => :users
+  %li=link_to 'Groups', :action => :index, :controller => :groups
+  %li=link_to 'Cabinets', :action => :index, :controller => :cabinets
+  %li=link_to 'Search', :action => :index, :controller => :searches
+  %li=link_to 'BatchCapabilities', :action => :index, :controller => :batch_capabilities
+  %li=link_to 'Checked Out Objects', :action => :index, :controller => :checked_out_objects
+  %li=link_to 'Formats', :action => :index, :controller => :formats

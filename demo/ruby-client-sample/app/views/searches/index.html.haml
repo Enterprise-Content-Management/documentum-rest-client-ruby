@@ -1,0 +1,68 @@
+=link_to 'back to demo list', :action => :demo, :controller => :home
+
+
+=form_tag searches_path, :method => 'get' do
+  %table
+    %tr
+      %td='DQL'
+      %td=text_field_tag :dql, params[:dql]
+      %td=radio_button_tag :search_type, 'DQL', params[:search_type] == 'DQL'
+    %tr
+      %td='Simple Search'
+      %td=text_field_tag :q, params[:q]
+      %td=radio_button_tag :search_type, 'Simple', params[:search_type] == 'Simple'
+    %tr
+      %td='items per page'
+      %td=number_field_tag :items_per_page, params[:items_per_page].to_i, min: 1
+      %td=submit_tag 'execute'
+
+
+- if @result
+  - if @result.has_first_link?
+    =link_to 'first', :action => :index, :page => 1, :items_per_page => params[:items_per_page], :search_type => params[:search_type], :dql => params[:dql], :q => params[:q]
+  - if @result.has_previous_link?
+    =link_to 'previous', :action => :index, :page => extract_page(@result.find_link_by(Dctmclient::Resources::Link::RELATIONS[:previous]).href), :items_per_page => params[:items_per_page], :search_type => params[:search_type], :dql => params[:dql], :q => params[:q]
+  - if @result.has_next_link?
+    =link_to 'next', :action => :index, :page => extract_page(@result.find_link_by(Dctmclient::Resources::Link::RELATIONS[:next]).href), :items_per_page => params[:items_per_page], :search_type => params[:search_type], :dql => params[:dql], :q => params[:q]
+  - if @result.has_last_link?
+    =link_to 'last', :action => :index, :page => extract_page(@result.find_link_by(Dctmclient::Resources::Link::RELATIONS[:last]).href), :items_per_page => params[:items_per_page], :search_type => params[:search_type], :dql => params[:dql], :q => params[:q]
+
+
+  - if params[:dql] && params[:search_type] == 'DQL'
+    %table{:border => 1}
+      %tr
+        %th='Id'
+        %th='Name'
+        %th='Type'
+        %th='Updated'
+        %th='Published'
+      -@result.representation_json['entries'].each do |entry|
+        %tr
+          -id =entry['content']['properties']['r_object_id']
+          -type = entry['content']['type']
+          - if ['dm_sysobject', 'dm_folder', 'dm_document'].include?(type)
+            %td=link_to "#{id}", :action => :show, :controller => :objects, :id => id, :cabinet_id => find_cabinet_by(id)
+          -else
+            %td=id
+          %td=entry['content']['properties']['object_name']
+          %td=type
+          %td=entry['updated']
+          %td=entry['published']
+
+  - if params[:q] && params[:search_type] == 'Simple'
+    %table{:border => 1}
+      %tr
+        %th='Id'
+        %th='Title'
+        %th='Updated'
+        %th='Score'
+        %th='Terms'
+      -@result.representation_json['entries'].each do |entry|
+        %tr
+          %td=entry['id']
+          %td=entry['title']
+          %td=entry['updated']
+          %td=entry['score']
+          %td=entry['terms'].inspect
+
+

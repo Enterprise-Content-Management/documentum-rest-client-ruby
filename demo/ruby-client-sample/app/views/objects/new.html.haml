@@ -1,0 +1,6 @@
+=form_tag :action => :create, :controller => :objects, :method => 'patch' do
+  =label_tag :object_name, 'Name:'
+  =text_field_tag :object_name
+  =select_tag :object_type, options_for_select(['dm_sysobject', 'dm_document'])
+  =hidden_field_tag :cabinet_id, params[:cabinet_id]
+  =submit_tag 'create'

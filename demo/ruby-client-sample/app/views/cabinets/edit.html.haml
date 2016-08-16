@@ -1,0 +1,9 @@
+=form_tag cabinet_path(params[:id]), :method => :patch do
+  %table
+    %tr
+      %td=label_tag :name, "Name:"
+      %td=text_field_tag :name, @cabinet['object_name']
+      %td=label_tag :title, 'Title:'
+      %td=text_field_tag :title, @cabinet['title']
+      %td=hidden_field_tag :id, params[:id]
+  =submit_tag 'update'

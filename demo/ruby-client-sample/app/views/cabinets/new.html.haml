@@ -1,0 +1,6 @@
+=link_to 'back to demo list', :action => :demo, :controller => :home
+
+=form_tag :index => :create, :controller => :cabinets, :method => 'patch' do
+  =label_tag :cabinet_name, 'Name:'
+  =text_field_tag :cabinet_name
+  =submit_tag 'create'

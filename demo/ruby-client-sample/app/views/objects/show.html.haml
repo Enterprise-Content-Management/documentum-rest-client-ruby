@@ -1,0 +1,9 @@
+-if is_dm_sys_object?(@object)
+  =link_to 'versions', :action => :versions, :controller => :objects, :cabinet_id => params[:cabinet_id]
+
+
+%table
+  -@object['properties'].each do |k,v|
+    %tr
+      %td=k
+      %td=v

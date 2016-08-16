@@ -1,0 +1,7 @@
+=link_to 'back to demo list', :action => :demo, :controller => :home
+
+%table{:border => 1}
+  -@cabinet['properties'].each do |k,v|
+    %tr
+      %td=k
+      %td=v

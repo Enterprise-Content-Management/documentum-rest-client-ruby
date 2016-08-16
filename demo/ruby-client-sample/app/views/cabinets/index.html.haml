@@ -1,0 +1,21 @@
+=link_to 'back to demo list', :action => :demo, :controller => :home
+
+%p{:style => "font-weight:bold;"}='Cabinets'
+
+%table{:border => 1}
+  %tr
+    %th="Name"
+    %th="Summary"
+    %th="Action"
+  -@cabinets.each do |cabinet|
+    %tr
+      %td=cabinet['title']
+      %td=cabinet['summary']
+      %td
+        -id = cabinet['id'].split('/cabinets/')[1]
+        =link_to 'show', :action => :show, :controller => :cabinets, :id => id
+        =link_to 'update', :action => :edit, :controller => :cabinets, :id => id
+        =link_to 'delete', {:action => :destroy, :id => id}, :method => :delete, data: {confirm: 'Are you sure?'}
+        =link_to 'objects', :action => :index, :controller => :objects, :cabinet_id => id
+
+=link_to 'create', :action => :new, :controller => :cabinets

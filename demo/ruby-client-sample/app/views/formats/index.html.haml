@@ -1,0 +1,30 @@
+=link_to 'back to demo list', :action => :demo, :controller => :home
+
+
+=form_tag formats_path, :method => 'get' do
+  =number_field_tag :items_per_page, params[:items_per_page].to_i, min: 1
+  =submit_tag 'items per page'
+
+- if @formats.has_first_link?
+  =link_to 'first', :action => :index, :page => 1, :items_per_page => params[:items_per_page]
+- if @formats.has_previous_link?
+  =link_to 'previous', :acrtion => :index, :page => extract_page(@formats.find_link_by(Dctmclient::Resources::Link::RELATIONS[:previous]).href), :items_per_page => params[:items_per_page]
+- if @formats.has_next_link?
+  =link_to 'next', :acrtion => :index, :page => extract_page(@formats.find_link_by(Dctmclient::Resources::Link::RELATIONS[:next]).href), :items_per_page => params[:items_per_page]
+- if @formats.has_last_link?
+  =link_to 'last', :acrtion => :index, :page => extract_page(@formats.find_link_by(Dctmclient::Resources::Link::RELATIONS[:last]).href), :items_per_page => params[:items_per_page]
+
+
+%p{:style => "font-weight:bold;"}='Formats'
+%table{:border => 1}
+  %tr
+    %th='Title'
+    %th='published'
+    %th='updated'
+  -entries = @formats.representation_json['entries']
+  -entries ||= []
+  -entries.each do |entry|
+    %tr
+      %td=entry['title']
+      %td=entry['published']
+      %td=entry['updated']
