@@ -43,7 +43,7 @@ module Dctmclient
       private
 
       def validate_response
-        raise Dctmclient::Exception::DctmclientRequestException, @response.http_status_code if !request_success?
+        raise Dctmclient::Exception::DctmclientRequestException, @response.to_s if !request_success?
       end
 
       def request_success?
