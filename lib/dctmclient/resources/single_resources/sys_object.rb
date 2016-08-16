@@ -53,7 +53,7 @@ module Dctmclient
 
       def linking_to(another_folder)
         link = find_link_by(Link::RELATIONS[:parent_links])
-        link_to(link, :ParentLink, :http_method => 'put', :post_body => {"href" => another_parent.find_link_by(Link::RELATIONS[:self])})
+        link_to(link, :ParentLink, :http_method => 'put', :post_body => {"href" => another_folder.find_link_by(Link::RELATIONS[:self])})
       end
 
       def move_to(another_folder, include_all_versions = true)

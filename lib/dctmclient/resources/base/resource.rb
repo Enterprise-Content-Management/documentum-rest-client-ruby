@@ -5,6 +5,7 @@ module Dctmclient
 
       def initialize(response)
         @response = response
+        validate_response
       end
 
       def representation_json
