@@ -31,10 +31,21 @@ module Dctmclient
         link_to(link, :ChildLinks, :query_params => query_params)
       end
 
-      def create_sys_object(name, content)
+      def create_sys_object(properties)
+        link = find_link_by(Link::RELATIONS[:sys_objects])
+        link_to(link, :SysObject, :http_method => 'post', :post_body => properties)
+      end
+
+      # def create_sys_object(name, content)
+      #   link = find_link_by(Link::RELATIONS[:sys_objects])
+      #   post_body = "--1024\r\nContent-Disposition: form-data; name=metadata\r\nContent-Type: application/vnd.emc.documentum+json\r\n\r\n{\"properties\":{\"object_name\":\"#{name}\"}}\r\n--1024\r\nContent-Disposition: form-data;name=content\r\nContent-Type: text/plain\r\n\r\n#{content}\r\n--1024--\r\n"
+      #   link_to(link, :SysObject, :http_method => 'post', :post_body => post_body, :http_headers => {"Content-Type" => "multipart/form-data;boundary=1024"})
+      # end
+
+      def create_document_with_primary_content(name, content)
         link = find_link_by(Link::RELATIONS[:sys_objects])
         post_body = "--1024\r\nContent-Disposition: form-data; name=metadata\r\nContent-Type: application/vnd.emc.documentum+json\r\n\r\n{\"properties\":{\"object_name\":\"#{name}\"}}\r\n--1024\r\nContent-Disposition: form-data;name=content\r\nContent-Type: text/plain\r\n\r\n#{content}\r\n--1024--\r\n"
-        link_to(link, :SysObject, :http_method => 'post', :post_body => post_body, :http_headers => {"Content-Type" => "multipart/form-data;boundary=1024"})
+        link_to(link, :Document, :http_method => 'post', :post_body => post_body, :http_headers => {"Content-Type" => "multipart/form-data;boundary=1024"})
       end
 
       def copy_sys_object_from(href, deep_copy = true)
