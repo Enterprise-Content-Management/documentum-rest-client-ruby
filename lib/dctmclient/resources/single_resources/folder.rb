@@ -1,3 +1,5 @@
+require_relative File.dirname(__FILE__) + '/cabinet'
+
 module Dctmclient
   module Resources
     class Folder < Cabinet
