@@ -19,7 +19,7 @@ It will do the following jobs for some REST resources.
 
 ## Requirements
 ```
-1. Ruby2.0+ suggested, earlier Ruby versions such as 1.8.7, 1.9.2, and 1.9.3 are no longer supported officially. Version 2.1.5 is used in this demo.
+1. Ruby2.1.5+ suggested, earlier Ruby versions such as 1.8.7, 1.9.2, and 1.9.3 are no longer supported officially. Version 2.1.5 is used in this demo.
 2. Rails, a full stack framework for web application development. Version 4.2.3 is used in this demo.
 3. An instance of *Documentum REST Services 7.2* is available.
 ```
