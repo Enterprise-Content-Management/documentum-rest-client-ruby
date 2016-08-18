@@ -66,11 +66,13 @@ These following steps will direct you to how to run this demo from the scratch, 
     gem 'dctmclient', '0.1.0', :path => '/usr/local/lib/ruby/gems/2.1.0/gems/dctmclient-0.1.0'
     ```
 9. Start the sample application.
+
     ```
     sudo bundle update
     sudo bundle install
     rails s -b 0.0.0.0
     ```
+    
 10. Access *http://localhost:3000/home*
 
 ##Demo
