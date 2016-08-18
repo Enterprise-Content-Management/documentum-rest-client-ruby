@@ -30,15 +30,15 @@ These following steps will direct you to how to run this demo from the scratch, 
 
 1. Install some dependencies for Ruby
 
->   sudo apt-get update
->   sudo apt-get install git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties libffi-dev
+.. sudo apt-get update
+.. sudo apt-get install git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties libffi-dev
 
 2. Download and install [Ruby](https://www.ruby-lang.org/en/downloads/) from source code with make tool.
 
->   cd ruby-2.1.5
->   ./configure
->   make
->   sudo make install
+.. cd ruby-2.1.5
+.. ./configure
+.. make
+.. sudo make install
  
 3. Install rails framework
 
