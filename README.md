@@ -26,6 +26,7 @@ It will do the following jobs for some REST resources.
 
 ## Instructions  
 These following steps will direct you to how to run this demo from the scratch, including preparing the Ruby environment, building this project and starting the demo.
+
 *Note*: below instructions are implemented only on Linux, and this demo has been tested on Ubuntu 14.04 when writing this document. 
 
 1. Install some dependencies for Ruby
@@ -57,7 +58,7 @@ These following steps will direct you to how to run this demo from the scratch, 
     $ cd documentum-rest-client-ruby 
     ```
     
-5. Build the project, which would generates a file named *dctmclient-0.1.0.gem* locally.
+5. Build the project, which would generate a file named *dctmclient-0.1.0.gem* locally.
 
     ```
     $ gem build dctmclient.gemspec
