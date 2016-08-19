@@ -8,7 +8,7 @@ gem 'sqlite3'
 
 gem 'json', '1.8.1'
 
-gem 'dctmclient', '0.1.0', :path => '/usr/local/lib/ruby/gems/2.1.0/gems/dctmclient-0.1.0'
+gem 'dctmclient' #, '0.1.0', :path => '/usr/local/lib/ruby/gems/2.1.0/gems/dctmclient-0.1.0'
 
 gem 'rest-client', '1.8.0'
 gem 'awesome_print', '1.7.0'

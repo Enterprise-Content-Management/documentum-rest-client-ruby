@@ -18,11 +18,11 @@ It will do the following jobs for some REST resources.
 ```
 
 ## Requirements
-```
-1. Ruby2.1.5+ suggested, earlier Ruby versions such as 1.8.7, 1.9.2, and 1.9.3 are no longer supported officially. Version 2.1.5 is used in this demo.
-2. Rails, a full stack framework for web application development. Version 4.2.3 is used in this demo.
+
+1. Ruby 2.1.5+ suggested, earlier Ruby versions such as 1.8.x, and 1.9.x are no longer supported officially. Version 2.1.5 is used in this demo.
+2. Rails, a full stack framework for web application development. It's required for demo. Version 4.2.3 is used.
 3. An instance of *Documentum REST Services 7.2* is available.
-```
+
 
 ## Instructions  
 These following steps will direct you to how to run this demo from the scratch, including preparing the Ruby environment, building this project and starting the demo.
@@ -31,65 +31,59 @@ These following steps will direct you to how to run this demo from the scratch, 
 1. Install some dependencies for Ruby
 
     ```
-    sudo apt-get update
-    sudo apt-get install git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties libffi-dev
+    $ sudo apt-get update
+    $ sudo apt-get install git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties libffi-dev
     ```
     
 2. Download and install [Ruby](https://www.ruby-lang.org/en/downloads/) from source code with make tool.
 
     ```
-    cd ruby-2.1.5
-    ./configure
-    make
-    sudo make install
+    $ cd ruby-2.1.5
+    $ ./configure
+    $ make
+    $ sudo make install
     ```
      
-3. Install rails framework
+3. Install rails framework (only required for demo)
 
     ```
-    sudo gem install bundler
-    sudo gem install rails -v 4.2.3
+    $ sudo gem install bundler
+    $ sudo gem install rails -v 4.2.3
     ```
     
 4. Navigate to the project home directory.
 
     ```
-    cd documentum-rest-client-ruby 
+    $ cd documentum-rest-client-ruby 
     ```
     
 5. Build the project, which would generates a file named *dctmclient-0.1.0.gem* locally.
 
     ```
-    gem build dctmclient.gemspec
+    $ gem build dctmclient.gemspec
     ```
     
 6. Install the generated gem into local lib.
 
     ```
-    sudo gem install dctmclient-0.1.0.gem
+    $ sudo gem install dctmclient-0.1.0.gem
     ```
      
 7. Navigate to the demo/ruby-client-sample directory under this project.
 
     ```
-    cd demo/ruby-client-sample
+    $ cd demo/ruby-client-sample
     ```
     
-8. Specify the *dctmclient* gem path in the *Gemfile* like below under ruby-client-sample directory.
+8. Start the sample application.
 
     ```
-    gem 'dctmclient', '0.1.0', :path => '/usr/local/lib/ruby/gems/2.1.0/gems/dctmclient-0.1.0'
+    $ sudo bundle update
+    $ sudo bundle install
+    $ rails s -b 0.0.0.0
     ```
     
-9. Start the sample application.
-
-    ```
-    sudo bundle update
-    sudo bundle install
-    rails s -b 0.0.0.0
-    ```
-    
-10. Access *http://localhost:3000/home*
+9. Access *http://localhost:3000/home*
 
 ##Demo
 <img src="demo/ruby-demo.gif" width="1000">
