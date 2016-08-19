@@ -1,3 +1,5 @@
+require_relative File.dirname(__FILE__) + '/sys_object'
+
 module Dctmclient
   module Resources
     class Document < SysObject

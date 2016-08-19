@@ -20,7 +20,7 @@ It will do the following jobs for some REST resources.
 ## Requirements
 
 1. Ruby 2.1.5+ suggested, earlier Ruby versions such as 1.8.x, and 1.9.x are no longer supported officially. Version 2.1.5 is used in this demo.
-2. Rails, a full stack framework for web application development. It's required for demo. Version 4.2.3 is used.
+2. Rails 4.2.3+ suggested, a full stack framework for web application development. It's required for demo. 
 3. An instance of *Documentum REST Services 7.2* is available.
 
 
@@ -35,10 +35,10 @@ These following steps will direct you to how to run this demo from the scratch, 
     $ sudo apt-get install git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties libffi-dev
     ```
     
-2. Download and install [Ruby](https://www.ruby-lang.org/en/downloads/) from source code with make tool.
+2. Download and install [Ruby 2.x](https://www.ruby-lang.org/en/downloads/) from source code with make tool.
 
     ```
-    $ cd ruby-2.1.5
+    $ cd ruby-2.x
     $ ./configure
     $ make
     $ sudo make install
@@ -48,7 +48,7 @@ These following steps will direct you to how to run this demo from the scratch, 
 
     ```
     $ sudo gem install bundler
-    $ sudo gem install rails -v 4.2.3
+    $ sudo gem install rails
     ```
     
 4. Navigate to the project home directory.
