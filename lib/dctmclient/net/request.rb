@@ -28,8 +28,6 @@ module Dctmclient
       def execute
         build_request
         ap @url
-        # ap @http_method
-        # ap @http_headers
 
         begin
           response = case @http_method
@@ -54,7 +52,6 @@ module Dctmclient
 
       private
 
-
       def build_request
         @url += build_query_params
         @url = URI.encode(@url) if !not_need_encode?
@@ -73,16 +70,14 @@ module Dctmclient
         end
 
 
-        # if need_authentication? && @http_headers["Authorization"].nil?
-        #   @http_headers.store("Authorization", basic_auth(credential['repository']['user_name'], credential['repository']['password']))
-        #   # @http_headers.store("Authorization", basic_auth("Administrator", "password"))
-        # end
-
         if @http_headers['Content-Type'].nil? && ['put', 'post'].include?(@http_method)
           @http_headers.store('Content-Type', MEDIA_TYPES[:json])
         end
 
-        @post_body = @post_body.to_json if @post_body.is_a? Hash
+        if ['post', 'put'].include?(@http_method)
+          @post_body = @post_body.to_json if @post_body.is_a? Hash
+        end
+
       end
 
       def basic_auth(username, password)

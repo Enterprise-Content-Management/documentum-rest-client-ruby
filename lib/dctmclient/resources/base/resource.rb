@@ -1,3 +1,5 @@
+require 'json'
+
 module Dctmclient
   module Resources
     class AbstractResource
