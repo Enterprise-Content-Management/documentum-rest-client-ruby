@@ -17,11 +17,6 @@ module Dctmclient
         link = find_link_by(Link::RELATIONS[:edit])
         link_to(link, :Folder, :http_method => 'post', :post_body => properties)
       end
-
-      def delete
-        link = find_link_by(Link::RELATIONS[:delete])
-        link_to(link, :AbstractResource, :http_method => 'delete')
-      end
     end
   end
 end

@@ -24,6 +24,10 @@ module Dctmclient
         Link.new(relation_name, href)
       end
 
+      # Instantiates a request, based on the link.href and the options, where setting takes place
+      # on http request components, such as http method, query params, http headers and even post body.
+      # Note: options is a hash, and only symbols, :http_method, :query_params, :http_headers, and :post_body are
+      # effective.
       def link_to(link, resource_class, options = {})
         raise Dctmclient::Exception::LinkNotFoundException, "link not found for #{resource_class}" if link.nil?
 

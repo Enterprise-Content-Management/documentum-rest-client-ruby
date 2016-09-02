@@ -8,7 +8,7 @@ module Dctmclient
 
       def delete
         link = find_link_by(Link::RELATIONS[:delete])
-        link_to(link, :AbstractResource, :http_method => 'delete')
+        link_to(link, :AbstractResource, :http_method => 'delete', :query_params => {'del-non-empty' => true, 'del-all-links' => true, 'del-version' => 'all'})
       end
 
       def contents(query_params = {})
