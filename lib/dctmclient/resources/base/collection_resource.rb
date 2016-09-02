@@ -42,6 +42,15 @@ module Dctmclient
         !find_link_by(Link::RELATIONS[:previous]).nil?
       end
 
+      def entries
+        return [] if representation_json.nil?
+        representation_json['entries'] ||= []
+      end
+
+      def current_page
+        representation_json['page'].to_i
+      end
+
     end
   end
 end
