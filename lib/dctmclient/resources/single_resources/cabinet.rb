@@ -48,14 +48,9 @@ module Dctmclient
         link_to(link, :Document, :http_method => 'post', :post_body => post_body, :http_headers => {"Content-Type" => "multipart/form-data;boundary=1024"}, :query_params => {'format' => format})
       end
 
-      def copy_sys_object_from(href, deep_copy = true)
+      def copy_sys_object(sys_object, deep_copy = true)
         link = find_link_by(Link::RELATIONS[:sys_objects])
-        link_to(link, :SysObject, :http_method => 'post', :post_body => {"href" => href, "deep-copy" => deep_copy})
-      end
-
-      def makes_a_link_from(sys_object)
-        link = find_link_by(Link::RELATIONS[:child_links])
-        link_to(link, :ChildLink, :http_method => 'post', :post_body => {"href" => sys_object.id})
+        link_to(link, :SysObject, :http_method => 'post', :post_body => {"href" => sys_object.find_link_by(Link::RELATIONS[:edit]).href, "deep-copy" => deep_copy})
       end
 
     end
