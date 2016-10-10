@@ -36,6 +36,7 @@ module Dctmclient
           :cancel_check_out => LINK_REL_PREFIX + 'cancel-checkout',
           :check_in_next_major => LINK_REL_PREFIX + 'checkin-next-major',
           :check_in_next_minor => LINK_REL_PREFIX + 'checkin-next-minor',
+          :check_in_branch_version => LINK_REL_PREFIX + 'branch-version',
           :parent_links => LINK_REL_PREFIX + 'parent-links',
           :child_links => LINK_REL_PREFIX + 'child-links',
           :search => LINK_REL_PREFIX + 'search',

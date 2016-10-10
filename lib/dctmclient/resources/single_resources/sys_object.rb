@@ -38,12 +38,16 @@ module Dctmclient
         return link_to(link, :AbstractResource, :http_method => 'delete')
       end
 
-      def check_in_next_major(content)
-        check_in(content)
+      def check_in_next_major(binary_content)
+        check_in(binary_content, :check_in_next_major)
       end
 
-      def check_in_next_minor(content)
-        check_in(content, false)
+      def check_in_next_minor(binary_content)
+        check_in(binary_content, :check_in_next_minor)
+      end
+
+      def check_in_branch_version(binary_content)
+        check_in(binary_content, :check_in_branch_version)
       end
 
       def parent_links(query_params = {})
@@ -76,11 +80,10 @@ module Dctmclient
       private
 
       # Set Content-Type to avoid using default value(json), which blocks file uploading.
-      def check_in(content, major = true)
+      def check_in(binary_content, version_policy)
         return self if !checked_out?
-        version = major ? :check_in_next_major : :check_in_next_minor
-        link = find_link_by(Link::RELATIONS[version])
-        link_to(link, :SysObject, :http_method => 'post', :post_body => content, :http_headers => {"Content-Type" => ''})
+        link = find_link_by(Link::RELATIONS[version_policy])
+        link_to(link, :SysObject, :http_method => 'post', :post_body => binary_content, :http_headers => {'Content-Type' => ''})
       end
     end
   end
