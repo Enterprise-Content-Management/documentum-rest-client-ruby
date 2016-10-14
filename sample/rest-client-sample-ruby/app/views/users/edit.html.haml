@@ -1,0 +1,8 @@
+= form_tag user_path, :method => :put do
+  %p
+    = label_tag :user_address, 'Email:'
+    = text_field_tag :user_address, @rest_user.properties['user_address'], {:class => 'text_input'}
+    = hidden_field_tag :total, params[:total]
+  %p
+    = submit_tag 'Update'
+    = link_to '-Back-', :back

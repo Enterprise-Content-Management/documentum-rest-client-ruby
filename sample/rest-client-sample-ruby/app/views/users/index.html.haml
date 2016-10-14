@@ -1,0 +1,31 @@
+%p
+  %span{:class => 'user_menu'}
+    = image_tag 'user_add.png', :alt => 'Create a new user'
+    = link_to 'Create', new_user_path
+
+%table
+  %tr
+    %th= ''
+    %th= 'Name'
+    %th= 'Email'
+  - @rest_users.entries.each do |entry|
+    %tr{:class => cycle('even', 'odd')}
+      - properties = entry['content']['properties']
+      %td= image_tag('user.png')
+      %td= properties['user_login_name']
+      %td= properties['user_address']
+      %td= link_to image_tag('edit.png', :alt => 'edit'), edit_user_path(:id => properties['user_login_name'], :total => @total)
+      %td= link_to image_tag('delete.png', :alt => 'delete'), user_path(:id => properties['user_login_name'], :total => @total), :method => :delete, :data => {:confirm => 'Are you sure?'}
+
+
+-#Pagination
+- if @rest_users.has_first_link?
+  = link_to 'first', users_path(:page => 1)
+- if @rest_users.has_previous_link?
+  =link_to 'previous', users_path(:page => extract_page(@rest_users.find_link_by(Dctmclient::Resources::Link::RELATIONS[:previous]).href))
+- if @rest_users.has_next_link?
+  =link_to 'next', users_path(:page => extract_page(@rest_users.find_link_by(Dctmclient::Resources::Link::RELATIONS[:next]).href))
+- if @rest_users.has_last_link?
+  =link_to 'last', users_path(:page => extract_page(@rest_users.find_link_by(Dctmclient::Resources::Link::RELATIONS[:last]).href))
+
+

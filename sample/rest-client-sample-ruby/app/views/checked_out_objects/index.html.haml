@@ -1,0 +1,14 @@
+- if @rest_checked_out_objects.entries.size > 0
+  %table
+    %tr
+      %th= 'Id'
+      %th= 'Name'
+      %th= 'Lock By'
+      %th= 'Lock Date'
+    - @rest_checked_out_objects.entries.each do |entry|
+      %tr{:class => cycle('even', 'odd')}
+        - properties = entry['content']['properties']
+        %td= properties['r_object_id']
+        %td= properties['object_name']
+        %td= properties['r_lock_owner']
+        %td= format_date_time(properties['r_lock_date'])

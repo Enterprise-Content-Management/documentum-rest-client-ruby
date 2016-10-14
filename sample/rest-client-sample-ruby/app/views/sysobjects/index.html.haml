@@ -1,0 +1,66 @@
+%p
+  - ancestor_folder_ids = find_folder_by(params[:current_folder_id]).properties['i_ancestor_id'].reverse!
+  - ancestor_folder_ids.delete_if { |id| id == params[:current_folder_id]}
+  - ancestor_folder_ids.each do |folder_id|
+    = link_to find_folder_by(folder_id).properties['object_name'] + ' > ', sysobjects_path(:current_folder_id => folder_id)
+  = link_to find_folder_by(params[:current_folder_id]).properties['object_name'], sysobjects_path(:current_folder_id => params[:current_folder_id])
+
+
+%p
+  %span{:class => 'folder_menu'}
+    = image_tag('folder_add.png')
+    = link_to 'Create a folder', new_folder_path(:parent_folder_id => params[:current_folder_id])
+  %span{:class => 'folder_menu'}
+    = image_tag('file_add.png')
+    = link_to 'Upload document', new_document_path(:parent_folder_id => params[:current_folder_id])
+
+  - if !session[:clipboard].blank?
+    %span{:class => 'folder_menu'}
+      = image_tag('copy.png')
+      = link_to 'Copy here', copy_sysobjects_url(:current_folder_id => params[:current_folder_id])
+    %span{:class => 'folder_menu'}
+      = image_tag('link.png')
+      = link_to 'Link here', link_sysobjects_url(:current_folder_id => params[:current_folder_id])
+    %span{:class => 'folder_menu'}
+      = image_tag('move.png')
+      = link_to 'Move here', move_sysobjects_url(:current_folder_id => params[:current_folder_id])
+
+
+- if @rest_sys_objects.entries.size > 0
+  %table
+    %tr
+      %th= 'Id'
+      %th= 'Name'
+      %th= 'Type'
+    - @rest_sys_objects.entries.each do |entry|
+      %tr{:class => cycle('even', 'odd')}
+        - properties = entry['content']['properties']
+        %td= properties['r_object_id']
+        %td= properties['object_name']
+        %td= properties['r_object_type']
+        %td= link_to image_tag('clipboard.png', :alt => 'Add to clipboard'), :action => :add, :controller => :clipboard, :sys_object_id => properties['r_object_id'], :current_folder_id => params[:current_folder_id], :page => @page
+
+        - if properties['r_object_type'] == 'dm_folder'
+          %td= link_to image_tag('folders_and_documents.png', :alt => 'Folders and Objects'), sysobjects_path(:current_folder_id => properties['r_object_id'], :page => @page)
+          %td= link_to image_tag('delete.png', :alt => 'Delete'), folder_path(:id => properties['r_object_id'], :parent_folder_id => params[:current_folder_id], :page => @page), :method => :delete, :data => {:confirm => 'Are you sure?'}
+        - else
+          %td= link_to image_tag('delete.png', :alt => 'Delete'), sysobject_path(:id => properties['r_object_id'], :current_folder_id => params[:current_folder_id], :page => @page), :method => :delete, :data => {:confirm => 'Are you sure?'}
+
+        - if properties['r_object_type'] == 'dm_document'
+          - rest_sys_object = find_sysobject_by(properties['r_object_id'])
+          - if rest_sys_object.checked_out?
+            %td= link_to image_tag('unlock.png', :alt => 'Cancel check out'), cancel_check_out_sysobject_path(:id => properties['r_object_id'], :current_folder_id => params[:current_folder_id], :page => @page)
+            %td= link_to image_tag('check_in.png', :alt => 'Check in'), upload_file_for_check_in_sysobject_path(:id => properties['r_object_id'], :current_folder_id => params[:current_folder_id], :page => @page)
+          - else
+            %td= link_to image_tag('lock.png', :alt => 'Check out'), check_out_sysobject_path(:id => properties['r_object_id'], :current_folder_id => params[:current_folder_id], :page => @page)
+
+
+  -#Pagination
+  - if @rest_sys_objects.has_first_link?
+    = link_to 'first', sysobjects_path(:page => 1, :current_folder_id => params[:current_folder_id])
+  - if @rest_sys_objects.has_previous_link?
+    =link_to 'previous', sysobjects_path(:page => extract_page(@rest_sys_objects.find_link_by(Dctmclient::Resources::Link::RELATIONS[:previous]).href), :current_folder_id => params[:current_folder_id])
+  - if @rest_sys_objects.has_next_link?
+    =link_to 'next', sysobjects_path(:page => extract_page(@rest_sys_objects.find_link_by(Dctmclient::Resources::Link::RELATIONS[:next]).href), :current_folder_id => params[:current_folder_id])
+  - if @rest_sys_objects.has_last_link?
+    =link_to 'last', sysobjects_path(:page => extract_page(@rest_sys_objects.find_link_by(Dctmclient::Resources::Link::RELATIONS[:last]).href), :current_folder_id => params[:current_folder_id])

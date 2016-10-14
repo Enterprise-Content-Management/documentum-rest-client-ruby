@@ -1,0 +1,8 @@
+= form_tag folders_path, :method => :post do
+  %p
+    = label_tag :folder_name, 'Name'
+    = text_field_tag :folder_name, '', {:calss => 'text_input'}
+    = hidden_field_tag :parent_folder_id, params[:parent_folder_id]
+  %p
+    = submit_tag 'Create'
+    = link_to '-Back-', :back

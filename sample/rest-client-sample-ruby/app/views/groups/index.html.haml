@@ -1,0 +1,27 @@
+- if @rest_groups.entries.size > 0
+
+  %table
+    %tr
+      %th= ''
+      %th= 'Name'
+      %th= 'Owner'
+      %th= 'Created'
+    - @rest_groups.entries.each do |entry|
+      %tr{:class => cycle('even', 'odd')}
+        - properties = entry['content']['properties']
+        %td= image_tag('group.png')
+        %td= properties['group_name']
+        %td= properties['owner_name']
+        %td= format_date_time(entry['published'])
+
+
+  -#Pagination
+  - if @rest_groups.has_first_link?
+    = link_to 'first', groups_path(:page => 1)
+  - if @rest_groups.has_previous_link?
+    =link_to 'previous', groups_path(:page => extract_page(@rest_groups.find_link_by(Dctmclient::Resources::Link::RELATIONS[:previous]).href))
+  - if @rest_groups.has_next_link?
+    =link_to 'next', groups_path(:page => extract_page(@rest_groups.find_link_by(Dctmclient::Resources::Link::RELATIONS[:next]).href))
+  - if @rest_groups.has_last_link?
+    =link_to 'last', groups_path(:page => extract_page(@rest_groups.find_link_by(Dctmclient::Resources::Link::RELATIONS[:last]).href))
+          

@@ -1,0 +1,3 @@
+rest_services:
+  home_url: http://10.62.87.62:8080/dctm-rest/services
+  repository: REPO

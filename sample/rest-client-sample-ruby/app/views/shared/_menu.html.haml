@@ -1,0 +1,11 @@
+%div{:id => 'menu'}
+  %p{:class => 'menu'}
+    - if signed_in?
+      = link_to 'Users', users_path
+      = link_to 'Groups', groups_path
+      = link_to 'Search', :action => :index, :controller => :search
+      = link_to 'Checked-Out-Objects', checked_out_objects_path
+      = link_to 'Cabinets', cabinets_path
+
+
+

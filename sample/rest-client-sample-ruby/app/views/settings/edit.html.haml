@@ -1,0 +1,11 @@
+%h1=content_for :title
+= form_tag  setting_path(0), :method => :patch do
+  %p
+    =label_tag :items_per_page, 'items-per-page:'
+    %br
+    =number_field_tag :items_per_page, session[:items_per_page], min: 1
+  %p
+    =label_tag :include_total, 'include-total:'
+    =check_box_tag :include_total, '', session[:include_total]
+  %p
+    =submit_tag 'Save'

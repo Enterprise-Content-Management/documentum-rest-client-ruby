@@ -1,0 +1,19 @@
+= form_tag(check_in_sysobjects_path, :method => :post, :multipart => true) do
+  %p
+    = file_field_tag :uploaded_file
+    = hidden_field_tag :parent_folder_id, params[:current_folder_id]
+    = hidden_field_tag :sys_object_id, params[:id]
+    = hidden_field_tag :page, params[:page]
+  %p
+    - if @check_in_policies.include?('major')
+      = radio_button_tag :check_in_policy, 'major', true
+      = 'major'
+    - if @check_in_policies.include?('minor')
+      = radio_button_tag :check_in_policy, 'minor'
+      = 'minor'
+    - if @check_in_policies.include?('branch')
+      = radio_button_tag :check_in_policy, 'branch'
+      = 'branch'
+  %p
+    = submit_tag 'Check in'
+    = link_to '-Back-', :back

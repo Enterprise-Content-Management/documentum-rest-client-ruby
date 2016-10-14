@@ -1,0 +1,17 @@
+= form_tag '/search', :method => :get do
+  %p
+    = text_field_tag :search_text, '', {:class => 'text_input'}
+    = image_submit_tag('search.png', :align => 'absmiddle')
+%hr
+- if @rest_search_results && @rest_search_results.entries.size > 0
+  %table
+    %tr
+      %th= 'Id'
+      %td= 'Title'
+      %td= 'type'
+    - @rest_search_results.entries.each do |entry|
+      %tr{:class => cycle('even', 'odd')}
+        - properties = entry['content']['properties']
+        %td= properties['r_object_id']
+        %td= properties['object_name']
+        %td= properties['r_object_type']
