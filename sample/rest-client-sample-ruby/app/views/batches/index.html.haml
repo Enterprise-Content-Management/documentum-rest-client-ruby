@@ -1,0 +1,104 @@
+%ul{:id => 'ops'}
+  %li{:id => 'types', :class => 'ui-state-default'}
+    %span{:class => "ui-icon ui-icon-arrowthick-2-n-s"}
+    = "get types"
+  %li{:class => 'ui-state-default', :id => 'formats'}
+    %span{:class => "ui-icon ui-icon-arrowthick-2-n-s"}
+    = "get formats"
+  %li{:class => 'ui-state-default', :id => 'relations'}
+    %span{:class => "ui-icon ui-icon-arrowthick-2-n-s"}
+    = "get relations"
+
+%br
+
+%a{:id => 'batch-exec', :href => '/batches?batches=types,formats,relations'}
+  = image_tag('batch.png', :alt => 'execute batch')
+
+%br
+%hr
+%br
+
+- if @rest_batch_result
+  - operations = @rest_batch_result.representation_json['operations']
+  %table{:id => 'batch_result_tb'}
+    %tr
+      %th= 'Operation'
+      %th= 'State'
+      %th= 'Started'
+      %th= 'Finished'
+      -#%th= 'response'
+      -#%th= ''
+    - for index in 0...operations.size do
+      %tr{:class => cycle('even', 'odd')}
+        - operation = operations[index]
+
+        %td= operation['id']
+
+        - if operation['state'] == 'FINISHED'
+          %td= image_tag('ok_status.png', :alt => 'FINISHED')
+        - else
+          %td= 'error'
+
+        %td= format_date_time(operation['started'])
+        %td= format_date_time(operation['finished'])
+        %td= image_tag('batch_result.png', :alt => 'result')
+
+  - for index in 0...operations.size do
+    - entries = JSON.parse(operations[index]['response']['entity'])['entries']
+    %div{:id => "op_response_#{index}", :title => operations[index]['id']}
+      %table
+        %tr
+          %th= 'Id'
+          %th= 'Name'
+        - entries.each do |entry|
+          %tr{:class => cycle('even', 'odd')}
+            - if entry['id'].include?('relations')
+              %td= entry['content']['properties']['r_object_id']
+              %td= entry['content']['properties']['relation_name']
+            - elsif entry['id'].include?('formats')
+              %td= entry['content']['properties']['r_object_id']
+              %td= entry['content']['properties']['name']
+            - elsif entry['id'].include?('types')
+              %td= '--'
+              %td= entry['content']['name']
+
+
+
+
+
+:css
+  #ops {list-style-type: none; margin: 0; padding: 0; width: 60%;}
+  #ops li {margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em;}
+  #ops li span {position: absolute; margin-left: -1.3em;}
+
+:javascript
+  $(function() {
+
+    $("#ops").sortable({
+      stop: function(){
+        var ids = [];
+        $("#ops li").each(function() {
+            ids.push(this.id);
+        });
+        $("#batch-exec").attr("href", '/batches?batches='+ids.toString());
+      }
+    });
+
+
+    $("div[id*='op_response']").dialog({
+          autoOpen: false,
+          modal: true,
+          width: 'auto',
+          height: 'auto',
+          show: { effect: "blind", duration: 1000},
+          hide: { effect: "explode", duration: 500}
+    });
+
+    $("#batch_result_tb tr td:nth-child(5)").each(function(index){
+      $(this).on("click", function(){
+        $("#op_response_"+index).dialog("open");
+      });
+    });
+
+
+  });

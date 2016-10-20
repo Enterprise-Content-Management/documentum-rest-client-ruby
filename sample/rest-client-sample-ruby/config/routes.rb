@@ -3,7 +3,7 @@ Boxroom::Application.routes.draw do
 
   resources :users, :sessions, :groups, :search,
             :checked_out_objects, :cabinets,
-            :folders, :documents
+            :folders, :documents, :batches
 
   resources :clipboard do
     collection do
