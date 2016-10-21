@@ -43,7 +43,9 @@ module Dctmclient
           :first => 'first',
           :next => 'next',
           :previous => 'previous',
-          :last => 'last'
+          :last => 'last',
+          :comments => LINK_REL_PREFIX + 'comments',
+          :replies => LINK_REL_PREFIX + 'replies'
       }
 
       def initialize(relation, href)

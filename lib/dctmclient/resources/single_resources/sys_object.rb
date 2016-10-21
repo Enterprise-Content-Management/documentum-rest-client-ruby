@@ -76,6 +76,11 @@ module Dctmclient
         return find_link_by(Link::RELATIONS[:check_out]).nil?
       end
 
+      def comments(query_params = {})
+        link = find_link_by(Link::RELATIONS[:comments])
+        link_to(link, :Comments, :query_params => query_params)
+      end
+
 
       private
 
