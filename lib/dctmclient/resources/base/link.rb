@@ -45,7 +45,11 @@ module Dctmclient
           :previous => 'previous',
           :last => 'last',
           :comments => LINK_REL_PREFIX + 'comments',
-          :replies => LINK_REL_PREFIX + 'replies'
+          :replies => LINK_REL_PREFIX + 'replies',
+          :saved_searches => LINK_REL_PREFIX + 'saved-searches',
+          :search_execution => LINK_REL_PREFIX + 'search-execution',
+          :saved_search_results => LINK_REL_PREFIX + 'saved-search-results',
+          :search_templates => LINK_REL_PREFIX + 'search-templates'
       }
 
       def initialize(relation, href)

@@ -53,6 +53,22 @@ module Dctmclient
         link_to(link, :AbstractCollectionResource, :query_params => query_params)
       end
 
+      def search_with_aql(aql_statement, query_params = {})
+        link = find_link_by(Link::RELATIONS[:search])
+        link.href.sub!(/{.*}/, '')
+        link_to(link, :AbstractCollectionResource, :http_method => 'post', :post_body => aql_statement, :query_params => query_params)
+      end
+
+      def saved_searches(query_params = {})
+        link = find_link_by(Link::RELATIONS[:saved_searches])
+        link_to(link, :SavedSearches, :query_params => query_params)
+      end
+
+      def search_templates(query_params = {})
+        link = find_link_by(Link::RELATIONS[:search_templates])
+        link_to(link, :SearchTemplates, :query_params => query_params)
+      end
+
       def batch_capabilities(query_params = {})
         link = find_link_by(Link::RELATIONS[:batch_capabilities])
         link_to(link, :BatchCapabilities, :query_params => query_params)
@@ -67,7 +83,6 @@ module Dctmclient
         link = find_link_by(Link::RELATIONS[:checked_out_objects])
         link_to(link, :CheckedOutObjects, :query_params => query_params)
       end
-
 
       def execute_batch(config, operations)
         link = find_link_by(Link::RELATIONS[:batches])
