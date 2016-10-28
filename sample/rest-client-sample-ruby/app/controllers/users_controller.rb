@@ -9,7 +9,7 @@ class UsersController < ApplicationController
 
   def create
     begin
-      @@repo.users.create('properties' => {'user_name' => params[:user_name], 'user_login_name' => params[:user_name]})
+      @@repo.users.create('user_name' => params[:user_name], 'user_login_name' => params[:user_name])
       flash[:notice] = 'Create successfully'
     rescue Dctmclient::Exception::DctmclientRequestException => e
       flash[:alert] = 'The user name has existed' if e.to_s.include?('DM_USER_E_EXISTING_USER_NAME')
@@ -25,12 +25,7 @@ class UsersController < ApplicationController
   def update
     @@repo.users('items-per-page' => params[:total])
         .find(params[:id])
-        .update(
-            'properties' =>
-                {
-                    'user_address' => params[:user_address]
-                }
-        )
+        .update('user_address' => params[:user_address])
     redirect_to users_path, :notice => 'Save successfully'
   end
 
