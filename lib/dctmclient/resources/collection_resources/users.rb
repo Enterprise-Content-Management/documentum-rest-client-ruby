@@ -8,7 +8,7 @@ module Dctmclient
 
       def create(properties)
         link = find_link_by(Link::RELATIONS[:self])
-        link_to(link, :User, :http_method => 'post', :post_body => properties)
+        link_to(link, :User, :http_method => 'post', :post_body => {'properties' => properties})
       end
     end
   end

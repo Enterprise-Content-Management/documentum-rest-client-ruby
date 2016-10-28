@@ -8,7 +8,7 @@ module Dctmclient
 
       def update(properties)
         link = find_link_by(Link::RELATIONS[:edit])
-        link_to(link, :User, :http_method => 'post', :post_body => properties)
+        link_to(link, :User, :http_method => 'post', :post_body => {'properties' => properties})
       end
 
       def delete

@@ -49,7 +49,8 @@ module Dctmclient
           :saved_searches => LINK_REL_PREFIX + 'saved-searches',
           :search_execution => LINK_REL_PREFIX + 'search-execution',
           :saved_search_results => LINK_REL_PREFIX + 'saved-search-results',
-          :search_templates => LINK_REL_PREFIX + 'search-templates'
+          :search_templates => LINK_REL_PREFIX + 'search-templates',
+          :current_user_preferences => LINK_REL_PREFIX + 'current-user-preferences'
       }
 
       def initialize(relation, href)

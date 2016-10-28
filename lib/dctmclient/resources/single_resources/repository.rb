@@ -79,6 +79,11 @@ module Dctmclient
         link_to(link, :User, :query_params => query_params)
       end
 
+      def current_user_preferences(query_params = {})
+        link = find_link_by(Link::RELATIONS[:current_user_preferences])
+        link_to(link, :Preferences, :query_params => query_params)
+      end
+
       def checked_out_objects(query_params = {})
         link = find_link_by(Link::RELATIONS[:checked_out_objects])
         link_to(link, :CheckedOutObjects, :query_params => query_params)

@@ -27,7 +27,7 @@ module Dctmclient
 
       def execute
         build_request
-        ap @url
+        ap "#{@http_method} #{@url}"
 
         begin
           response = case @http_method
